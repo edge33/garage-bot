@@ -1,0 +1,6 @@
+services:
+  garage-bot:
+    build: .
+    env_file: .env
+    init: true
+    restart: unless-stopped
