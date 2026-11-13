@@ -104,10 +104,12 @@ secrets, HTTP bodies, and raw errors are excluded from application logs.
 
 ## Development and verification
 
-Install the Node.js version in `.node-version` and pnpm version in `package.json`.
+Install the Node.js version in `.nvmrc` and pnpm version in `package.json`.
 All dependency versions are pinned in the manifest and lockfile.
 
 ```sh
+nvm install
+nvm use
 pnpm install --frozen-lockfile
 pnpm dev
 

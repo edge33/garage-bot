@@ -12,7 +12,7 @@
 ## Runtime and tooling
 
 - Use Node.js 26 with native TypeScript type stripping. The pinned runtime is in
-  `.node-version` and the Dockerfile; keep them consistent when updating Node.
+  `.nvmrc` and the Dockerfile; keep them consistent when updating Node.
 - Use pnpm, with the version pinned in `package.json`. Keep dependency versions
   exact and update `pnpm-lock.yaml` when dependencies change. Use frozen installs
   for verification and container builds.
