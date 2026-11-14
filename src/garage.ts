@@ -56,9 +56,10 @@ export function createGarage(
         : { kind: "failed", status: response.status };
     } catch {
       // A lost response does not tell us whether the physical action happened.
-      return { kind: "uncertain" };
     } finally {
       inFlight.delete(door);
     }
+
+    return { kind: "uncertain" };
   };
 }

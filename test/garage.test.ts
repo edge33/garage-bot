@@ -72,6 +72,49 @@ test("cooldowns apply in dry run independently per door", async () => {
   assert.deepEqual(await action("small"), { kind: "sent", simulated: true });
 });
 
+test("response bodies are cancelled before reporting acceptance", async () => {
+  let cancelled = false;
+  const action = createGarage(liveConfig, {
+    fetch: async () =>
+      new Response(
+        new ReadableStream({
+          cancel() {
+            cancelled = true;
+          },
+        }),
+      ),
+  });
+
+  assert.deepEqual(await action("small"), { kind: "sent", simulated: false });
+  assert.equal(cancelled, true);
+});
+
+test("body cancellation failures release the in-flight guard but retain cooldown", async () => {
+  let time = 0;
+  let calls = 0;
+  const action = createGarage(liveConfig, {
+    now: () => time,
+    fetch: async () => {
+      calls += 1;
+      return new Response(
+        new ReadableStream({
+          cancel() {
+            throw new Error("Cancellation failed");
+          },
+        }),
+      );
+    },
+  });
+
+  assert.deepEqual(await action("small"), { kind: "uncertain" });
+  assert.deepEqual(await action("small"), { kind: "busy" });
+  assert.equal(calls, 1);
+
+  time = 5000;
+  assert.deepEqual(await action("small"), { kind: "uncertain" });
+  assert.equal(calls, 2);
+});
+
 test("in-flight guard remains active after the cooldown expires", async () => {
   let time = 0;
   let release: (response: Response) => void = () => {};

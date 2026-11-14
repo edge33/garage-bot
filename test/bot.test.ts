@@ -41,6 +41,7 @@ function setup(
     useRealDryRun?: boolean;
     dryRun?: boolean;
     result?: ActionResult;
+    useDefaults?: boolean;
   } = {},
 ) {
   const actions: Door[] = [];
@@ -48,20 +49,22 @@ function setup(
   const logs: Array<Record<string, string | number | boolean>> = [];
   const bot = createBot(
     { ...config, dryRun: options.dryRun ?? true },
-    {
-      now: () => time,
-      log: (_event, fields) => logs.push(fields),
-      ...(options.useRealDryRun
-        ? {}
-        : {
-            action: async (door: Door) => {
-              actions.push(door);
-              return (
-                options.result ?? { kind: "sent" as const, simulated: true }
-              );
-            },
-          }),
-    },
+    options.useDefaults
+      ? undefined
+      : {
+          now: () => time,
+          log: (_event, fields) => logs.push(fields),
+          ...(options.useRealDryRun
+            ? {}
+            : {
+                action: async (door: Door) => {
+                  actions.push(door);
+                  return (
+                    options.result ?? { kind: "sent" as const, simulated: true }
+                  );
+                },
+              }),
+        },
   );
 
   bot.botInfo = {
@@ -179,6 +182,46 @@ test("stale and duplicate commands cannot actuate", async () => {
   assert.deepEqual(actions, ["small"]);
   assert.equal(replies.length, 2);
   assert.match(replies[0]?.text ?? "", /scaduto/);
+});
+
+test("future commands are rejected beyond the clock tolerance", async () => {
+  const { bot, actions, replies } = setup();
+
+  await bot.handleUpdate(message(1, "Garage piccolo", 123, time / 1000 + 6));
+  await bot.handleUpdate(message(2, "Garage piccolo", 123, time / 1000 + 5));
+
+  assert.deepEqual(actions, ["small"]);
+  assert.match(replies[0]?.text ?? "", /scaduto/);
+  assert.match(replies[1]?.text ?? "", /DRY RUN/);
+});
+
+test("deduplication evicts the oldest update while retaining recent updates", async () => {
+  const { bot, actions, replies } = setup();
+
+  await bot.handleUpdate(message(1, "Garage piccolo"));
+
+  for (let id = 2; id <= 10_000; id += 1) {
+    await bot.handleUpdate({ update_id: id });
+  }
+
+  await bot.handleUpdate(message(10_000, "Garage grande"));
+  assert.deepEqual(actions, ["small"]);
+
+  await bot.handleUpdate(message(10_001, "Garage grande"));
+  await bot.handleUpdate(message(1, "Garage piccolo"));
+
+  assert.deepEqual(actions, ["small", "large", "small"]);
+  assert.equal(replies.length, 3);
+});
+
+test("default dependencies support simulated actions without a logger", async () => {
+  const { bot, replies } = setup({ useDefaults: true });
+
+  await bot.handleUpdate(message(1, "Garage piccolo", 123, Date.now() / 1000));
+  await bot.handleUpdate(message(2, "Garage piccolo", 456, Date.now() / 1000));
+
+  assert.match(replies[0]?.text ?? "", /DRY RUN/);
+  assert.match(replies[1]?.text ?? "", /troppo ravvicinato/);
 });
 
 test("real dry-run action shares per-door cooldown across trusted users", async () => {
