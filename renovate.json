@@ -3,6 +3,8 @@
   "extends": ["config:recommended"],
   "rangeStrategy": "pin",
   "semanticCommits": "enabled",
+  "semanticCommitType": "deps",
+  "semanticCommitScope": "",
   "packageRules": [
     {
       "matchDepTypes": ["engines"],
@@ -16,14 +18,6 @@
     {
       "matchPackageNames": ["pnpm"],
       "groupName": "pnpm"
-    },
-    {
-      "matchDepTypes": ["dependencies"],
-      "semanticCommitType": "fix"
-    },
-    {
-      "matchDatasources": ["docker"],
-      "semanticCommitType": "fix"
     }
   ],
   "customManagers": [
