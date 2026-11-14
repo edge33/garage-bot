@@ -134,8 +134,8 @@ acceptance requires your token and user IDs; real door acceptance requires the
 owner to observe the doors.
 
 `pnpm test:coverage` uses Node's native coverage support, prints a summary, and
-writes `coverage/lcov.info` for coverage viewers and CI tools. It includes every
-TypeScript source file under `src/`, even files not loaded by the tests, and
-excludes tests and dependencies. Generated reports are ignored by Git. The
-process entrypoint (`src/index.ts`) is currently untested and is included in the
-totals so the report shows that gap.
+writes `coverage/lcov.info` for coverage viewers and CI tools. It requires 100%
+line, branch, and function coverage for TypeScript source files under `src/`,
+including files not loaded by the tests. The process entrypoint (`src/index.ts`)
+is excluded and remains untested. Tests and dependencies are also excluded.
+Generated reports are ignored by Git and excluded from Biome checks.

@@ -14,7 +14,7 @@
     "check": "biome check .",
     "format": "biome check --write .",
     "test": "node --test test/*.test.ts",
-    "test:coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-include='src/**/*.ts' --test-coverage-include-all --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info test/*.test.ts"
+    "test:coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-include='src/**/*.ts' --test-coverage-include-all --test-coverage-exclude='src/index.ts' --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info test/*.test.ts"
   },
   "dependencies": {
     "grammy": "1.46.0"
