@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/edge33/garage-bot/compare/v1.1.0...v1.1.1) (2026-11-14)
+
+
+### Dependencies
+
+* pin Docker base images by digest ([#9](https://github.com/edge33/garage-bot/issues/9)) ([360efe1](https://github.com/edge33/garage-bot/commit/360efe14846869f5e6b2c2f2472534d3b3fb9277))
+
 ## [1.1.0](https://github.com/edge33/garage-bot/compare/v1.0.0...v1.1.0) (2026-11-14)
 
 
