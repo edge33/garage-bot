@@ -1,6 +1,9 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.6.7/schema.json",
-  "files": { "ignoreUnknown": true, "includes": ["**", "!!coverage"] },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!!coverage", "!!CHANGELOG.md"]
+  },
   "formatter": { "indentStyle": "space", "indentWidth": 2 },
   "linter": { "enabled": true, "rules": { "preset": "recommended" } }
 }
