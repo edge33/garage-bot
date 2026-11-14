@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "rangeStrategy": "pin",
+  "semanticCommits": "enabled",
+  "packageRules": [
+    {
+      "matchDepTypes": ["engines"],
+      "rangeStrategy": "replace"
+    },
+    {
+      "matchPackageNames": ["node", "@types/node"],
+      "allowedVersions": ">=26 <27",
+      "groupName": "Node.js"
+    },
+    {
+      "matchPackageNames": ["pnpm"],
+      "groupName": "pnpm"
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "semanticCommitType": "fix"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
+      "matchStrings": [
+        "npm install --global pnpm@(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "pnpm",
+      "datasourceTemplate": "npm"
+    }
+  ]
+}

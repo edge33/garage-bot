@@ -139,3 +139,8 @@ line, branch, and function coverage for TypeScript source files under `src/`,
 including files not loaded by the tests. The process entrypoint (`src/index.ts`)
 is excluded and remains untested. Tests and dependencies are also excluded.
 Generated reports are ignored by Git and excluded from Biome checks.
+
+## Automation
+
+Renovate manages dependency updates, Release Please manages releases, and
+GitHub Actions publishes container images to GHCR when a `v*` tag is pushed.
