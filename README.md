@@ -144,3 +144,5 @@ Generated reports are ignored by Git and excluded from Biome checks.
 
 Renovate manages dependency updates, Release Please manages releases, and
 GitHub Actions publishes container images to GHCR when a `v*` tag is pushed.
+Renovate updates the Biome package and the schema version in `biome.json` together
+using the built-in `customManagers:biomeVersions` preset.
