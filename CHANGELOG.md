@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/edge33/garage-bot/compare/v1.1.1...v1.1.2) (2026-11-27)
+
+
+### Bug Fixes
+
+* update dependency grammy to v1.48.0 ([#13](https://github.com/edge33/garage-bot/issues/13)) ([2004ed5](https://github.com/edge33/garage-bot/commit/2004ed5873399a392f9476827baf115c2235b542))
+
 ## [1.1.1](https://github.com/edge33/garage-bot/compare/v1.1.0...v1.1.1) (2026-11-14)
 
 
