@@ -17,7 +17,7 @@
     "test:coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-include='src/**/*.ts' --test-coverage-include-all --test-coverage-exclude='src/index.ts' --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info test/*.test.ts"
   },
   "dependencies": {
-    "grammy": "1.46.0"
+    "grammy": "1.48.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.9",
