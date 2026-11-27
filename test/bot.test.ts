@@ -81,6 +81,9 @@ function setup(
     allows_users_to_create_topics: false,
     can_manage_bots: false,
     supports_join_request_queries: false,
+    supports_guest_queries: false,
+    needs_inline_query_location: false,
+    has_topic_sidebar: false,
   };
 
   // Intercept every Telegram call; tests never need a token or the network.
